@@ -12,6 +12,6 @@ public enum ActionType {
     BUILD_STATION,
     TREAT_DISEASE,
     SHARE_INFO,
-    FIND_CURE,
+    FIND_CURE
 
 }

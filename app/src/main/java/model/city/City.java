@@ -1,6 +1,7 @@
 package model.city;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import model.player.Player;
 import shared.DiseaseType;
@@ -12,7 +13,14 @@ public class City {
 
     DiseaseType type;
     HashMap<DiseaseCube, Integer> infectionLevel = new HashMap<DiseaseCube, Integer>();
+    HashSet<City> neighbors = new HashSet<City>();
 
+    public City(DiseaseType type) {
+        this.type = type;
+    }
 
+    public void addNeighbor(City city) {
+        neighbors.add(city);
+    }
 
 }

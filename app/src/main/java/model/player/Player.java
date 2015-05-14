@@ -1,10 +1,10 @@
 package model.player;
 
+import model.card.type.PlayerCard;
 import model.city.City;
 import model.player.hand.Hand;
 import model.player.role.IRole;
-import strategy.framework.rule.ICheckDiscardStrategy;
-import strategy.framework.rule.IDiscardStrategy;
+import strategy.framework.player.other.IDiscardStrategy;
 
 /**
  * Created by brandt on 5/14/15.
@@ -26,15 +26,17 @@ public class Player /*implements IPlayer*/{
     }
 
 
-    public boolean checkDiscard(ICheckDiscardStrategy checkDiscardStrategy){
+    public boolean checkDiscard(IDiscardStrategy discardStrategy){
         return false;
     }
 
-    public boolean discardCard(IDiscardStrategy discardStrategy){
+    public boolean discardCard(IDiscardStrategy discardStrategy, PlayerCard card){
         return false;
     }
 
-//    public boolean
+    //moving
+    //building a research station
+    //
 
 
 
