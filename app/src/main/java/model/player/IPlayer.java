@@ -3,7 +3,8 @@ package model.player;
 /**
  * Created by brandt on 5/14/15.
  */
-public class IPlayer {
+public interface IPlayer {
+
 
 
 

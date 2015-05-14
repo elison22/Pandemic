@@ -3,7 +3,7 @@ package shared;
 /**
  * Created by brandt on 5/13/15.
  */
-public enum CityNames {
+public enum CityName {
 
     //              Blue Cities
     SAN_FRANCISCO,

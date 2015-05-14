@@ -3,7 +3,7 @@ package shared;
 /**
  * Created by brandt on 5/13/15.
  */
-public enum ActionTypes {
+public enum ActionType {
 
     DRIVE_FERRY,
     DIRECT_FLIGHT,

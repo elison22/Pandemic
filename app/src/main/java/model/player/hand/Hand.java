@@ -2,9 +2,9 @@ package model.player.hand;
 
 import java.util.ArrayList;
 
-import model.cards.types.CityCard;
-import model.cards.types.EventCard;
-import model.cards.types.PlayerCard;
+import model.card.type.CityCard;
+import model.card.type.EventCard;
+import model.card.type.PlayerCard;
 
 /**
  * Created by brandt on 5/14/15.
