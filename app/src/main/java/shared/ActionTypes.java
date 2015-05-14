@@ -5,6 +5,13 @@ package shared;
  */
 public enum ActionTypes {
 
-
+    DRIVE_FERRY,
+    DIRECT_FLIGHT,
+    CHARTER_FLIGHT,
+    SHUTTLE_FLIGHT,
+    BUILD_STATION,
+    TREAT_DISEASE,
+    SHARE_INFO,
+    FIND_CURE,
 
 }
