@@ -1,4 +1,4 @@
-package shared;
+package enums;
 
 /**
  * Created by brandt on 5/13/15.

@@ -7,6 +7,6 @@ import strategy.framework.factory.IRoleFactory;
  */
 public interface IRole {
 
-    public IRoleFactory getFactory();
+    //public IRoleFactory getFactory();
 
 }

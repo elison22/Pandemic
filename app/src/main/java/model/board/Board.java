@@ -3,8 +3,8 @@ package model.board;
 import java.util.HashMap;
 
 import model.city.City;
-import shared.CityName;
-import shared.DiseaseType;
+import enums.CityName;
+import enums.DiseaseType;
 
 /**
  * Created by brandt on 5/14/15.

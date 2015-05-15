@@ -3,8 +3,7 @@ package model.city;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import model.player.Player;
-import shared.DiseaseType;
+import enums.DiseaseType;
 
 /**
  * Created by brandt on 5/14/15.

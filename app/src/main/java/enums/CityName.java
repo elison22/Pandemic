@@ -1,6 +1,4 @@
-package shared;
-
-import model.city.City;
+package enums;
 
 /**
  * Created by brandt on 5/13/15.
@@ -22,13 +20,6 @@ public enum CityName {
     //              Red Cities
     BEIJING, SEOUL, TOKYO, SHANGHAI, OSAKA, TAIPEI,
     HONG_KONG, BANGKOK, MANILA, HO_CHI_MINH_CITY, JAKARTA, SYDNEY
-
-
-
-
-
-
-
 
 
     /*private City city;

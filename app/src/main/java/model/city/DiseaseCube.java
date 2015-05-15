@@ -1,6 +1,6 @@
 package model.city;
 
-import shared.DiseaseType;
+import enums.DiseaseType;
 
 /**
  * Created by brandt on 5/14/15.
