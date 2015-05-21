@@ -1,4 +1,4 @@
-package model.player.hand;
+package model.player;
 
 import java.util.ArrayList;
 

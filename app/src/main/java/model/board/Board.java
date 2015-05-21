@@ -1,10 +1,13 @@
 package model.board;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.card.type.GameCard;
 import model.city.City;
 import enums.CityName;
 import enums.DiseaseType;
+import strategy.framework.player.progress.IBuildStrategy;
 
 /**
  * Created by brandt on 5/14/15.
@@ -12,6 +15,7 @@ import enums.DiseaseType;
 public class Board {
 
     HashMap<CityName, City> cities = new HashMap<CityName, City>();
+    ArrayList<CityName> stations = new ArrayList<CityName>();
 
     public Board()
     {
@@ -376,5 +380,20 @@ public class Board {
         cities.get(CityName.SYDNEY).addNeighbor(cities.get(CityName.LOS_ANGELES));
 
     }
+
+    public boolean canAddStation(CityName city, GameCard card, IBuildStrategy strategy) {
+        // check if the city already has one
+        // check if the player's strategy allows them to build there
+        return false;
+    }
+
+    private void addStation(CityName city, GameCard card, IBuildStrategy strategy) {
+        // set the flag in the city
+        // add the city to the station array in this class
+        // if from the event card, do nothing else
+        // else run the strategy with the card
+    }
+
+
 
 }

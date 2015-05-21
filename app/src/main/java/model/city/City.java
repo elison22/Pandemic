@@ -10,9 +10,11 @@ import enums.DiseaseType;
  */
 public class City {
 
-    DiseaseType type;
-    HashMap<DiseaseCube, Integer> infectionLevel = new HashMap<DiseaseCube, Integer>();
-    HashSet<City> neighbors = new HashSet<City>();
+    private int protectionLevel;
+    private boolean hasResearchStation;
+    private DiseaseType type;
+    private HashMap<DiseaseCube, Integer> infectionLevel = new HashMap<DiseaseCube, Integer>();
+    private HashSet<City> neighbors = new HashSet<City>();
 
     public City(DiseaseType type) {
         this.type = type;
@@ -21,5 +23,15 @@ public class City {
     public void addNeighbor(City city) {
         neighbors.add(city);
     }
+
+    public void setResearchStation(boolean hasStation) {
+        hasResearchStation = hasStation;
+    }
+
+    public boolean doesHaveResearchStation() {
+        return hasResearchStation;
+    }
+
+
 
 }

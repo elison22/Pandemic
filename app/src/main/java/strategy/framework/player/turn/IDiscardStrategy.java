@@ -1,7 +1,7 @@
-package strategy.framework.player.other;
+package strategy.framework.player.turn;
 
 import model.card.type.PlayerCard;
-import model.player.hand.Hand;
+import model.player.Hand;
 
 /**
  * Created by brandt on 5/14/15.
