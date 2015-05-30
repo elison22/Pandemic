@@ -1,31 +1,37 @@
 package model.board;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
-import model.card.type.GameCard;
-import model.city.City;
 import enums.CityName;
 import enums.DiseaseType;
-import strategy.framework.player.progress.IBuildStrategy;
+import model.GameLostException;
 
 /**
  * Created by brandt on 5/14/15.
  */
 public class Board {
 
-    HashMap<CityName, City> cities = new HashMap<CityName, City>();
-    ArrayList<CityName> stations = new ArrayList<CityName>();
+    private HashMap<CityName, City> cities = new HashMap<CityName, City>();
+    private HashSet<CityName> stations = new HashSet<CityName>();
+    private HashMap<DiseaseType, Integer> diseaseCounts = new HashMap<DiseaseType, Integer>();
+    private int maxResearchStations = 6;
+    private int diseaseMax = 24;
+    private int outbreakLimit = 8;
+    private int outbreakCount = 0;
 
-    public Board()
-    {
+    public Board() {
         createCities();
         addBlueNeighbors();
         addYellowNeighbors();
         addBlackNeighbors();
         addRedNeighbors();
+        stations.add(CityName.ATLANTA);
     }
 
+    /**
+     * === SETUP CRAP === *
+     */
     private void createCities() {
         // blue
         cities.put(CityName.SAN_FRANCISCO, new City(DiseaseType.BLUE));
@@ -157,6 +163,78 @@ public class Board {
         cities.get(CityName.ST_PETERSBURG).addNeighbor(cities.get(CityName.ISTANBUL));
 
 
+
+        // san fran
+        cities.get(CityName.SAN_FRANCISCO).addNeighbor(CityName.CHICAGO);
+        cities.get(CityName.SAN_FRANCISCO).addNeighbor(CityName.LOS_ANGELES);
+        cities.get(CityName.SAN_FRANCISCO).addNeighbor(CityName.TOKYO);
+        cities.get(CityName.SAN_FRANCISCO).addNeighbor(CityName.MANILA);
+
+        // chicago
+        cities.get(CityName.CHICAGO).addNeighbor(CityName.SAN_FRANCISCO);
+        cities.get(CityName.CHICAGO).addNeighbor(CityName.LOS_ANGELES);
+        cities.get(CityName.CHICAGO).addNeighbor(CityName.MEXICO_CITY);
+        cities.get(CityName.CHICAGO).addNeighbor(CityName.ATLANTA);
+        cities.get(CityName.CHICAGO).addNeighbor(CityName.MONTREAL);
+
+        // atlanta
+        cities.get(CityName.ATLANTA).addNeighbor(CityName.CHICAGO);
+        cities.get(CityName.ATLANTA).addNeighbor(CityName.WASHINGTON);
+        cities.get(CityName.ATLANTA).addNeighbor(CityName.MIAMI);
+
+        // montreal
+        cities.get(CityName.MONTREAL).addNeighbor(CityName.CHICAGO);
+        cities.get(CityName.MONTREAL).addNeighbor(CityName.WASHINGTON);
+        cities.get(CityName.MONTREAL).addNeighbor(CityName.NEW_YORK);
+
+        // washington
+        cities.get(CityName.WASHINGTON).addNeighbor(CityName.MIAMI);
+        cities.get(CityName.WASHINGTON).addNeighbor(CityName.ATLANTA);
+        cities.get(CityName.WASHINGTON).addNeighbor(CityName.MONTREAL);
+        cities.get(CityName.WASHINGTON).addNeighbor(CityName.NEW_YORK);
+
+        // new york
+        cities.get(CityName.NEW_YORK).addNeighbor(CityName.WASHINGTON);
+        cities.get(CityName.NEW_YORK).addNeighbor(CityName.MONTREAL);
+        cities.get(CityName.NEW_YORK).addNeighbor(CityName.MADRID);
+        cities.get(CityName.NEW_YORK).addNeighbor(CityName.LONDON);
+
+        // madrid
+        cities.get(CityName.MADRID).addNeighbor(CityName.NEW_YORK);
+        cities.get(CityName.MADRID).addNeighbor(CityName.LONDON);
+        cities.get(CityName.MADRID).addNeighbor(CityName.SAO_PAULO);
+        cities.get(CityName.MADRID).addNeighbor(CityName.PARIS);
+        cities.get(CityName.MADRID).addNeighbor(CityName.ALGIERS);
+
+        // london
+        cities.get(CityName.LONDON).addNeighbor(CityName.NEW_YORK);
+        cities.get(CityName.LONDON).addNeighbor(CityName.MADRID);
+        cities.get(CityName.LONDON).addNeighbor(CityName.PARIS);
+        cities.get(CityName.LONDON).addNeighbor(CityName.ESSEN);
+
+        // paris
+        cities.get(CityName.PARIS).addNeighbor(CityName.LONDON);
+        cities.get(CityName.PARIS).addNeighbor(CityName.MADRID);
+        cities.get(CityName.PARIS).addNeighbor(CityName.ALGIERS);
+        cities.get(CityName.PARIS).addNeighbor(CityName.MILAN);
+        cities.get(CityName.PARIS).addNeighbor(CityName.ESSEN);
+
+        // essen
+        cities.get(CityName.ESSEN).addNeighbor(CityName.LONDON);
+        cities.get(CityName.ESSEN).addNeighbor(CityName.PARIS);
+        cities.get(CityName.ESSEN).addNeighbor(CityName.MILAN);
+        cities.get(CityName.ESSEN).addNeighbor(CityName.ST_PETERSBURG);
+
+        // milan
+        cities.get(CityName.MILAN).addNeighbor(CityName.ESSEN);
+        cities.get(CityName.MILAN).addNeighbor(CityName.PARIS);
+        cities.get(CityName.MILAN).addNeighbor(CityName.ISTANBUL);
+
+        // st petersburg
+        cities.get(CityName.ST_PETERSBURG).addNeighbor(CityName.ESSEN);
+        cities.get(CityName.ST_PETERSBURG).addNeighbor(CityName.MOSCOW);
+        cities.get(CityName.ST_PETERSBURG).addNeighbor(CityName.ISTANBUL);
+
     }
 
     private void addYellowNeighbors() {
@@ -225,6 +303,71 @@ public class Board {
         cities.get(CityName.JOHANNESBURG).addNeighbor(cities.get(CityName.KINSHASA));
         cities.get(CityName.JOHANNESBURG).addNeighbor(cities.get(CityName.KHARTOUM));
 
+
+
+        // los angeles
+        cities.get(CityName.LOS_ANGELES).addNeighbor(CityName.SAN_FRANCISCO);
+        cities.get(CityName.LOS_ANGELES).addNeighbor(CityName.SYDNEY);
+        cities.get(CityName.LOS_ANGELES).addNeighbor(CityName.CHICAGO);
+        cities.get(CityName.LOS_ANGELES).addNeighbor(CityName.MEXICO_CITY);
+
+        // mexico city
+        cities.get(CityName.MEXICO_CITY).addNeighbor(CityName.LOS_ANGELES);
+        cities.get(CityName.MEXICO_CITY).addNeighbor(CityName.CHICAGO);
+        cities.get(CityName.MEXICO_CITY).addNeighbor(CityName.MIAMI);
+        cities.get(CityName.MEXICO_CITY).addNeighbor(CityName.BOGOTA);
+        cities.get(CityName.MEXICO_CITY).addNeighbor(CityName.LIMA);
+
+        // miami
+        cities.get(CityName.MIAMI).addNeighbor(CityName.WASHINGTON);
+        cities.get(CityName.MIAMI).addNeighbor(CityName.ATLANTA);
+        cities.get(CityName.MIAMI).addNeighbor(CityName.MEXICO_CITY);
+        cities.get(CityName.MIAMI).addNeighbor(CityName.BOGOTA);
+
+        //bogota
+        cities.get(CityName.BOGOTA).addNeighbor(CityName.MEXICO_CITY);
+        cities.get(CityName.BOGOTA).addNeighbor(CityName.MIAMI);
+        cities.get(CityName.BOGOTA).addNeighbor(CityName.LIMA);
+        cities.get(CityName.BOGOTA).addNeighbor(CityName.BUENOS_AIRES);
+        cities.get(CityName.BOGOTA).addNeighbor(CityName.SAO_PAULO);
+
+        // lima
+        cities.get(CityName.LIMA).addNeighbor(CityName.MEXICO_CITY);
+        cities.get(CityName.LIMA).addNeighbor(CityName.BOGOTA);
+        cities.get(CityName.LIMA).addNeighbor(CityName.SAN_FRANCISCO);
+
+        // santiago
+        cities.get(CityName.SANTIAGO).addNeighbor(CityName.LIMA);
+
+        // buenos aires
+        cities.get(CityName.BUENOS_AIRES).addNeighbor(CityName.BOGOTA);
+        cities.get(CityName.BUENOS_AIRES).addNeighbor(CityName.SAO_PAULO);
+
+        // sao paulo
+        cities.get(CityName.SAO_PAULO).addNeighbor(CityName.BOGOTA);
+        cities.get(CityName.SAO_PAULO).addNeighbor(CityName.BUENOS_AIRES);
+        cities.get(CityName.SAO_PAULO).addNeighbor(CityName.MADRID);
+        cities.get(CityName.SAO_PAULO).addNeighbor(CityName.LAGOS);
+
+        // lagos
+        cities.get(CityName.LAGOS).addNeighbor(CityName.SAO_PAULO);
+        cities.get(CityName.LAGOS).addNeighbor(CityName.KINSHASA);
+        cities.get(CityName.LAGOS).addNeighbor(CityName.KHARTOUM);
+
+        // kinshasa
+        cities.get(CityName.KINSHASA).addNeighbor(CityName.LAGOS);
+        cities.get(CityName.KINSHASA).addNeighbor(CityName.KHARTOUM);
+        cities.get(CityName.KINSHASA).addNeighbor(CityName.JOHANNESBURG);
+
+        // khartoum
+        cities.get(CityName.KHARTOUM).addNeighbor(CityName.LAGOS);
+        cities.get(CityName.KHARTOUM).addNeighbor(CityName.KINSHASA);
+        cities.get(CityName.KHARTOUM).addNeighbor(CityName.JOHANNESBURG);
+        cities.get(CityName.KHARTOUM).addNeighbor(CityName.CAIRO);
+
+        // johannesburg
+        cities.get(CityName.JOHANNESBURG).addNeighbor(CityName.KINSHASA);
+        cities.get(CityName.JOHANNESBURG).addNeighbor(CityName.KHARTOUM);
     }
 
     private void addBlackNeighbors() {
@@ -305,6 +448,83 @@ public class Board {
         cities.get(CityName.KOLKATA).addNeighbor(cities.get(CityName.BANGKOK));
         cities.get(CityName.KOLKATA).addNeighbor(cities.get(CityName.HONG_KONG));
 
+
+
+        // algiers
+        cities.get(CityName.ALGIERS).addNeighbor(CityName.CAIRO);
+        cities.get(CityName.ALGIERS).addNeighbor(CityName.MADRID);
+        cities.get(CityName.ALGIERS).addNeighbor(CityName.PARIS);
+        cities.get(CityName.ALGIERS).addNeighbor(CityName.ISTANBUL);
+
+        // cairo
+        cities.get(CityName.CAIRO).addNeighbor(CityName.ALGIERS);
+        cities.get(CityName.CAIRO).addNeighbor(CityName.ISTANBUL);
+        cities.get(CityName.CAIRO).addNeighbor(CityName.KHARTOUM);
+        cities.get(CityName.CAIRO).addNeighbor(CityName.RIYADH);
+        cities.get(CityName.CAIRO).addNeighbor(CityName.BAGHDAD);
+
+        // istanbul
+        cities.get(CityName.ISTANBUL).addNeighbor(CityName.ALGIERS);
+        cities.get(CityName.ISTANBUL).addNeighbor(CityName.CAIRO);
+        cities.get(CityName.ISTANBUL).addNeighbor(CityName.BAGHDAD);
+        cities.get(CityName.ISTANBUL).addNeighbor(CityName.MILAN);
+        cities.get(CityName.ISTANBUL).addNeighbor(CityName.ST_PETERSBURG);
+        cities.get(CityName.ISTANBUL).addNeighbor(CityName.MOSCOW);
+
+        // moscow
+        cities.get(CityName.MOSCOW).addNeighbor(CityName.ST_PETERSBURG);
+        cities.get(CityName.MOSCOW).addNeighbor(CityName.ISTANBUL);
+        cities.get(CityName.MOSCOW).addNeighbor(CityName.TEHRAN);
+
+        // baghdad
+        cities.get(CityName.BAGHDAD).addNeighbor(CityName.ISTANBUL);
+        cities.get(CityName.BAGHDAD).addNeighbor(CityName.CAIRO);
+        cities.get(CityName.BAGHDAD).addNeighbor(CityName.RIYADH);
+        cities.get(CityName.BAGHDAD).addNeighbor(CityName.KARACHI);
+        cities.get(CityName.BAGHDAD).addNeighbor(CityName.TEHRAN);
+
+        // riyadh
+        cities.get(CityName.RIYADH).addNeighbor(CityName.CAIRO);
+        cities.get(CityName.RIYADH).addNeighbor(CityName.BAGHDAD);
+        cities.get(CityName.RIYADH).addNeighbor(CityName.KARACHI);
+
+        // tehran
+        cities.get(CityName.TEHRAN).addNeighbor(CityName.MOSCOW);
+        cities.get(CityName.TEHRAN).addNeighbor(CityName.BAGHDAD);
+        cities.get(CityName.TEHRAN).addNeighbor(CityName.KARACHI);
+        cities.get(CityName.TEHRAN).addNeighbor(CityName.DELHI);
+
+        // karachi
+        cities.get(CityName.KARACHI).addNeighbor(CityName.RIYADH);
+        cities.get(CityName.KARACHI).addNeighbor(CityName.BAGHDAD);
+        cities.get(CityName.KARACHI).addNeighbor(CityName.TEHRAN);
+        cities.get(CityName.KARACHI).addNeighbor(CityName.DELHI);
+        cities.get(CityName.KARACHI).addNeighbor(CityName.MUMBAI);
+
+        // delhi
+        cities.get(CityName.DELHI).addNeighbor(CityName.TEHRAN);
+        cities.get(CityName.DELHI).addNeighbor(CityName.KARACHI);
+        cities.get(CityName.DELHI).addNeighbor(CityName.MUMBAI);
+        cities.get(CityName.DELHI).addNeighbor(CityName.CHENNAI);
+        cities.get(CityName.DELHI).addNeighbor(CityName.KOLKATA);
+
+        // mumbai
+        cities.get(CityName.MUMBAI).addNeighbor(CityName.KARACHI);
+        cities.get(CityName.MUMBAI).addNeighbor(CityName.DELHI);
+        cities.get(CityName.MUMBAI).addNeighbor(CityName.CHENNAI);
+
+        // chennai
+        cities.get(CityName.CHENNAI).addNeighbor(CityName.MUMBAI);
+        cities.get(CityName.CHENNAI).addNeighbor(CityName.DELHI);
+        cities.get(CityName.CHENNAI).addNeighbor(CityName.KOLKATA);
+        cities.get(CityName.CHENNAI).addNeighbor(CityName.BANGKOK);
+        cities.get(CityName.CHENNAI).addNeighbor(CityName.JAKARTA);
+
+        // kolkata
+        cities.get(CityName.KOLKATA).addNeighbor(CityName.DELHI);
+        cities.get(CityName.KOLKATA).addNeighbor(CityName.CHENNAI);
+        cities.get(CityName.KOLKATA).addNeighbor(CityName.BANGKOK);
+        cities.get(CityName.KOLKATA).addNeighbor(CityName.HONG_KONG);
     }
 
     private void addRedNeighbors() {
@@ -379,21 +599,160 @@ public class Board {
         cities.get(CityName.SYDNEY).addNeighbor(cities.get(CityName.MANILA));
         cities.get(CityName.SYDNEY).addNeighbor(cities.get(CityName.LOS_ANGELES));
 
+
+
+        // bangkok
+        cities.get(CityName.BANGKOK).addNeighbor(CityName.KOLKATA);
+        cities.get(CityName.BANGKOK).addNeighbor(CityName.CHENNAI);
+        cities.get(CityName.BANGKOK).addNeighbor(CityName.JAKARTA);
+        cities.get(CityName.BANGKOK).addNeighbor(CityName.HO_CHI_MINH_CITY);
+        cities.get(CityName.BANGKOK).addNeighbor(CityName.HONG_KONG);
+
+        // jakarta
+        cities.get(CityName.JAKARTA).addNeighbor(CityName.CHENNAI);
+        cities.get(CityName.JAKARTA).addNeighbor(CityName.BANGKOK);
+        cities.get(CityName.JAKARTA).addNeighbor(CityName.HO_CHI_MINH_CITY);
+        cities.get(CityName.JAKARTA).addNeighbor(CityName.SYDNEY);
+
+        // ho chi minh city
+        cities.get(CityName.HO_CHI_MINH_CITY).addNeighbor(CityName.JAKARTA);
+        cities.get(CityName.HO_CHI_MINH_CITY).addNeighbor(CityName.BANGKOK);
+        cities.get(CityName.HO_CHI_MINH_CITY).addNeighbor(CityName.HONG_KONG);
+        cities.get(CityName.HO_CHI_MINH_CITY).addNeighbor(CityName.MANILA);
+
+        // hong kong
+        cities.get(CityName.HONG_KONG).addNeighbor(CityName.KOLKATA);
+        cities.get(CityName.HONG_KONG).addNeighbor(CityName.BANGKOK);
+        cities.get(CityName.HONG_KONG).addNeighbor(CityName.HO_CHI_MINH_CITY);
+        cities.get(CityName.HONG_KONG).addNeighbor(CityName.MANILA);
+        cities.get(CityName.HONG_KONG).addNeighbor(CityName.TAIPEI);
+        cities.get(CityName.HONG_KONG).addNeighbor(CityName.SHANGHAI);
+
+        // beijing
+        cities.get(CityName.BEIJING).addNeighbor(CityName.SEOUL);
+        cities.get(CityName.BEIJING).addNeighbor(CityName.SHANGHAI);
+
+        // seoul
+        cities.get(CityName.SEOUL).addNeighbor(CityName.BEIJING);
+        cities.get(CityName.SEOUL).addNeighbor(CityName.SHANGHAI);
+        cities.get(CityName.SEOUL).addNeighbor(CityName.TOKYO);
+
+        // tokyo
+        cities.get(CityName.TOKYO).addNeighbor(CityName.SEOUL);
+        cities.get(CityName.TOKYO).addNeighbor(CityName.SHANGHAI);
+        cities.get(CityName.TOKYO).addNeighbor(CityName.SAN_FRANCISCO);
+        cities.get(CityName.TOKYO).addNeighbor(CityName.OSAKA);
+
+        // shanghai
+        cities.get(CityName.SHANGHAI).addNeighbor(CityName.SEOUL);
+        cities.get(CityName.SHANGHAI).addNeighbor(CityName.BEIJING);
+        cities.get(CityName.SHANGHAI).addNeighbor(CityName.TOKYO);
+        cities.get(CityName.SHANGHAI).addNeighbor(CityName.TAIPEI);
+        cities.get(CityName.SHANGHAI).addNeighbor(CityName.HONG_KONG);
+
+        // osaka
+        cities.get(CityName.OSAKA).addNeighbor(CityName.TOKYO);
+        cities.get(CityName.OSAKA).addNeighbor(CityName.TAIPEI);
+
+        // taipei
+        cities.get(CityName.TAIPEI).addNeighbor(CityName.OSAKA);
+        cities.get(CityName.TAIPEI).addNeighbor(CityName.HONG_KONG);
+        cities.get(CityName.TAIPEI).addNeighbor(CityName.MANILA);
+
+        // manila
+        cities.get(CityName.MANILA).addNeighbor(CityName.TAIPEI);
+        cities.get(CityName.MANILA).addNeighbor(CityName.HONG_KONG);
+        cities.get(CityName.MANILA).addNeighbor(CityName.HO_CHI_MINH_CITY);
+        cities.get(CityName.MANILA).addNeighbor(CityName.SYDNEY);
+        cities.get(CityName.MANILA).addNeighbor(CityName.SAN_FRANCISCO);
+
+        // sydney
+        cities.get(CityName.SYDNEY).addNeighbor(CityName.JAKARTA);
+        cities.get(CityName.SYDNEY).addNeighbor(CityName.MANILA);
+        cities.get(CityName.SYDNEY).addNeighbor(CityName.LOS_ANGELES);
+
     }
 
-    public boolean canAddStation(CityName city, GameCard card, IBuildStrategy strategy) {
-        // check if the city already has one
-        // check if the player's strategy allows them to build there
-        return false;
+    /**
+     * === RESEARCH STATION STUFF === *
+     */
+    /* returns -1 if invalid, otherwise the number of available research stations */
+    public int canAddStation(CityName city) {
+        if (stations.contains(city))
+            return -1;
+        return maxResearchStations - stations.size();
     }
 
-    private void addStation(CityName city, GameCard card, IBuildStrategy strategy) {
-        // set the flag in the city
-        // add the city to the station array in this class
-        // if from the event card, do nothing else
-        // else run the strategy with the card
+    public void addStation(CityName city) {
+        stations.add(city); // add the city to the station array in this class
     }
 
+    public void removeStation(CityName city) {
+        stations.remove(city);
+    }
 
+    public HashSet<CityName> getStations() {
+        return stations;
+    }
+
+    /**
+     * === INFECTION STUFF === *
+     */
+    public int getDiseaseCount(CityName city, DiseaseType type) {
+        return cities.get(city).getDiseaseCount(type);
+    }
+
+    public void infect(CityName city, DiseaseType type, int count) throws GameLostException {
+        for(int i = 0; i<count; i++)
+            infect(city, type);         // infect the appropriate number of times
+        clearOutbreakFlags();           // clear all the outbreak flags
+    }
+
+    private boolean couldOutbreak(CityName city, DiseaseType type) {
+        return cities.get(city).getDiseaseCount(type) == 3;
+    }
+
+    private void infect(CityName city, DiseaseType type) throws GameLostException {
+
+        if(cities.get(city).isProtected()) return;
+            //TODO: When a disease is eradicated, the city is only protected from that specific disease, which this flag doesn't account for...
+        if(couldOutbreak(city, type)) {
+            if(!cities.get(city).getOutbreakFlag()) // no outbreak here so far this infection step
+                outBreak(city, type);               // there is an outbreak
+        }
+        else {
+            if(diseaseCounts.get(type) == diseaseMax)        // check to make sure you won't lose
+                throw new GameLostException();
+
+            cities.get(city).addDisease(type);      // add disease to that city
+            diseaseCounts.put(type, diseaseCounts.get(type) + 1);   // increment the overall disease count
+        }
+    }
+
+    private void outBreak(CityName city, DiseaseType type) throws GameLostException {
+
+        outbreakCount++;                        //increment the outbreak count
+        if(outbreakCount == outbreakLimit)          //check to make sure you won't lose
+            throw new GameLostException();
+
+        cities.get(city).setOutbreakFlag(true); // flag the city
+
+        for(CityName neighbor : getNeighbors(city)) {       // infect the neighbors
+            infect(neighbor, type);
+        }
+
+    }
+
+    private void clearOutbreakFlags() {
+        for(City city : cities.values())
+            city.setOutbreakFlag(false);
+    }
+
+    /**
+     * === GENERAL STUFF === *
+     */
+    public HashSet<CityName> getNeighbors(CityName city) {
+        return cities.get(city).getNeighbors();
+    }
 
 }

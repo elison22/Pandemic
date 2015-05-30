@@ -1,7 +1,7 @@
 package model.player;
 
 import model.card.type.PlayerCard;
-import model.city.City;
+import model.board.City;
 import strategy.framework.player.turn.IDiscardStrategy;
 
 /**
