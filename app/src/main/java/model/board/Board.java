@@ -702,9 +702,9 @@ public class Board {
         return cities.get(city).getDiseaseCount(type);
     }
 
-    public void infect(CityName city, DiseaseType type, int count) throws GameLostException {
+    public void infect(CityName city, int count) throws GameLostException {
         for(int i = 0; i<count; i++)
-            infect(city, type);         // infect the appropriate number of times
+            infect(city, cities.get(city).getDiseaseType());         // infect the appropriate number of times
         clearOutbreakFlags();           // clear all the outbreak flags
     }
 

@@ -58,4 +58,9 @@ public class City {
         return protectionLevel > 0;
     }
 
+    public DiseaseType getDiseaseType() {
+        return type;
+    }
+
+
 }
