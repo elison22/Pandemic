@@ -20,6 +20,10 @@ public class City {
 
     public City(DiseaseType type) {
         this.type = type;
+        infectionLevel.put(DiseaseType.BLUE, 0);
+        infectionLevel.put(DiseaseType.YELLOW, 0);
+        infectionLevel.put(DiseaseType.RED, 0);
+        infectionLevel.put(DiseaseType.BLACK, 0);
     }
 
     public void addNeighbor(City city) {

@@ -27,6 +27,10 @@ public class Board {
         addBlackNeighbors();
         addRedNeighbors();
         stations.add(CityName.ATLANTA);
+        diseaseCounts.put(DiseaseType.RED, 0);
+        diseaseCounts.put(DiseaseType.BLUE, 0);
+        diseaseCounts.put(DiseaseType.BLACK, 0);
+        diseaseCounts.put(DiseaseType.YELLOW, 0);
     }
 
     /**
