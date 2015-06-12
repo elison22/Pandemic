@@ -5,15 +5,31 @@ import model.board.Board;
 
 import static enums.CityName.ALGIERS;
 import static enums.CityName.ATLANTA;
+import static enums.CityName.BAGHDAD;
 import static enums.CityName.BOGOTA;
+import static enums.CityName.CAIRO;
 import static enums.CityName.CHICAGO;
+import static enums.CityName.DELHI;
+import static enums.CityName.ISTANBUL;
+import static enums.CityName.JOHANNESBURG;
+import static enums.CityName.KARACHI;
+import static enums.CityName.KHARTOUM;
+import static enums.CityName.KINSHASA;
+import static enums.CityName.KOLKATA;
+import static enums.CityName.LAGOS;
 import static enums.CityName.LONDON;
 import static enums.CityName.MADRID;
 import static enums.CityName.MEXICO_CITY;
 import static enums.CityName.MIAMI;
+import static enums.CityName.MOSCOW;
+import static enums.CityName.MUMBAI;
 import static enums.CityName.NEW_YORK;
 import static enums.CityName.PARIS;
+import static enums.CityName.RIYADH;
 import static enums.CityName.SAO_PAULO;
+import static enums.CityName.ST_PETERSBURG;
+import static enums.CityName.SYDNEY;
+import static enums.CityName.TEHRAN;
 import static enums.CityName.WASHINGTON;
 import static enums.DiseaseType.BLACK;
 import static enums.DiseaseType.BLUE;
@@ -31,6 +47,7 @@ public class BoardTest {
     public BoardTest() {
         testBoard = new Board();
     }
+
 
     public void testSingleInfect() throws Exception {
 
@@ -95,6 +112,73 @@ public class BoardTest {
         assertTrue(testBoard.getDiseaseCount(ATLANTA, BLUE) == 0);
         assertTrue(testBoard.getDiseaseCount(WASHINGTON, BLUE) == 0);
 
+    }
+
+    public void testChainOutbreak() throws Exception {
+
+        testBoard.infect(JOHANNESBURG, 3);
+        testBoard.infect(KINSHASA, 3);
+
+        testBoard.infect(JOHANNESBURG, 1);
+
+        assertTrue(testBoard.getDiseaseCount(JOHANNESBURG, YELLOW) == 3);
+        assertTrue(testBoard.getDiseaseCount(KINSHASA, YELLOW) == 3);
+        assertTrue(testBoard.getDiseaseCount(LAGOS, YELLOW) == 1);
+        assertTrue(testBoard.getDiseaseCount(KHARTOUM, YELLOW) == 2);
+
+        testBoard.infect(KHARTOUM, 2);
+
+        assertTrue(testBoard.getDiseaseCount(JOHANNESBURG, YELLOW) == 3);
+        assertTrue(testBoard.getDiseaseCount(KINSHASA, YELLOW) == 3);
+        assertTrue(testBoard.getDiseaseCount(LAGOS, YELLOW) == 3);
+        assertTrue(testBoard.getDiseaseCount(KHARTOUM, YELLOW) == 3);
+        assertTrue(testBoard.getDiseaseCount(SAO_PAULO, YELLOW) == 0);
+        assertTrue(testBoard.getDiseaseCount(CAIRO, YELLOW) == 1);
+
+    }
+
+    public void testGameLostFromOutbeak() throws Exception {
+
+        testBoard.infect(JOHANNESBURG, 3);
+        testBoard.infect(KINSHASA, 3);
+        testBoard.infect(JOHANNESBURG, 1);      // 2 outbreaks
+        testBoard.infect(KHARTOUM, 2);          // 3 outbreaks
+        testBoard.infect(ST_PETERSBURG, 3);
+        testBoard.infect(ST_PETERSBURG, 1);     // 1 outbreak
+        testBoard.infect(MOSCOW, 3);
+        testBoard.infect(MOSCOW, 1);            // 1 outbreak
+        testBoard.infect(SYDNEY, 3);
+
+        try {
+            testBoard.infect(SYDNEY, 1);     // 1 outbreaks, which should make 8 and fail
+            assertTrue(false);
+        } catch (GameLostException e) {}
+    }
+
+    public void testGameLostFromOverInfection() throws Exception{
+
+        testBoard.infect(BAGHDAD, 3);
+        testBoard.infect(KARACHI, 3);
+        testBoard.infect(KARACHI, 1);   // 2 outbreaks
+        testBoard.infect(KARACHI, 1);   // 4 outbreaks
+
+        assertTrue(testBoard.getDiseaseCount(BAGHDAD, BLACK) == 3);
+        assertTrue(testBoard.getDiseaseCount(KARACHI, BLACK) == 3);
+        assertTrue(testBoard.getDiseaseCount(TEHRAN, BLACK) == 3);
+        assertTrue(testBoard.getDiseaseCount(RIYADH, BLACK) == 3);
+        assertTrue(testBoard.getDiseaseCount(DELHI, BLACK) == 3);
+        assertTrue(testBoard.getDiseaseCount(MUMBAI, BLACK) == 2);
+        assertTrue(testBoard.getDiseaseCount(MOSCOW, BLACK) == 1);
+        assertTrue(testBoard.getDiseaseCount(CAIRO, BLACK) == 3);
+        assertTrue(testBoard.getDiseaseCount(ISTANBUL, BLACK) == 2);
+
+        testBoard.infect(KOLKATA, 1);
+        assertTrue(testBoard.getDiseaseCount(KOLKATA, BLACK) == 1);
+
+        try {
+            testBoard.infect(ALGIERS, 1);
+            assertTrue(false);
+        } catch (GameLostException e) {}
     }
 
     private void addSomeInfection() {

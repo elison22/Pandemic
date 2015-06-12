@@ -53,8 +53,8 @@ public class TestDriver {
         driver.scanClasses(projectPath + testPackage.replace('.', '/'), testPackage);
 
         if(testsFailed == 0)
-            System.out.println("\n == Success!! == ");
-        else System.out.println("\n == Failure... == ");
+            System.out.println("\n ==== SUCCESS!! ==== ");
+        else System.out.println("\n ==== FAILURE... ==== ");
         System.out.println("Tests Run: " + testsRun);
         System.out.println("Tests Failed: " + testsFailed);
     }
@@ -77,8 +77,6 @@ public class TestDriver {
                     executeMethods(Class.forName(newPackage));
                 }
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,19 +84,20 @@ public class TestDriver {
     }
 
     private void executeMethods(Class aClass) {
-
+        System.out.println("\n---- " + aClass.getSimpleName().toUpperCase() + " ----");
         for (Method method : aClass.getDeclaredMethods()) {
             try {
                 if(!Modifier.isPublic(method.getModifiers()))
                     continue;
                 testsRun++;
+                System.out.println("-- " + method.getName());
                 method.invoke(aClass.newInstance());
+                System.out.println("Passed");
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
-                System.out.println("--");
                 Throwable te = e.getTargetException();
-                System.out.println(te);
+                System.out.println(te.toString());
                 if(fullTrace)
                     System.out.println(getTestTrace(
                             te.getStackTrace()));
@@ -108,8 +107,6 @@ public class TestDriver {
                             method.getName()));
                 }
                 testsFailed++;
-            } catch (InstantiationException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
