@@ -680,20 +680,27 @@ public class Board {
     /**
      * === RESEARCH STATION STUFF === *
      */
-    /* returns -1 if invalid, otherwise the number of available research stations */
-    public int canAddStation(CityName city) {
-        if (stations.contains(city))
-            return -1;
+
+    /* returns the number of available research stations */
+    public int addStation(CityName city) {
+        if(hasStation(city) || stationsAvailable() == 0) return -1;
+        stations.add(city); // add the city to the station array in this class
         return maxResearchStations - stations.size();
     }
 
-    public void addStation(CityName city) {
-        stations.add(city); // add the city to the station array in this class
+    public int removeStation(CityName city) {
+        if(!hasStation(city)) return -1;
+        stations.remove(city);
+        return maxResearchStations - stations.size();
     }
 
-    public void removeStation(CityName city) {
-        stations.remove(city);
+    public boolean hasStation(CityName city) {
+        return stations.contains(city);
     }
+
+    public int stationsAvailable() { return maxResearchStations - stations.size(); }
+
+    public int stationsBuilt() { return stations.size(); }
 
     public HashSet<CityName> getStations() {
         return stations;
@@ -719,7 +726,7 @@ public class Board {
     private void infect(CityName city, DiseaseType type) throws GameLostException {
 
         if(cities.get(city).isProtected()) return;
-            //TODO: When a disease is eradicated, the city is only protected from that specific disease, which this flag doesn't account for...
+            // Eradication will be handled at the game level.
         if(couldOutbreak(city, type)) {
             if(!cities.get(city).getOutbreakFlag()) // no outbreak here so far this infection step
                 outBreak(city, type);               // there is an outbreak
@@ -758,5 +765,7 @@ public class Board {
     public HashSet<CityName> getNeighbors(CityName city) {
         return cities.get(city).getNeighbors();
     }
+
+
 
 }

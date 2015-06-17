@@ -11,6 +11,7 @@ import static enums.CityName.CAIRO;
 import static enums.CityName.CHENNAI;
 import static enums.CityName.CHICAGO;
 import static enums.CityName.DELHI;
+import static enums.CityName.HONG_KONG;
 import static enums.CityName.ISTANBUL;
 import static enums.CityName.JOHANNESBURG;
 import static enums.CityName.KARACHI;
@@ -36,6 +37,8 @@ import static enums.DiseaseType.BLACK;
 import static enums.DiseaseType.BLUE;
 import static enums.DiseaseType.RED;
 import static enums.DiseaseType.YELLOW;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -53,65 +56,65 @@ public class BoardTest {
     public void testSingleInfect() throws Exception {
 
         testBoard.infect(ATLANTA, 1);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, BLUE) == 1);
+        assertEquals(1, testBoard.getDiseaseCount(ATLANTA, BLUE));
         testBoard.infect(ATLANTA, 2);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, BLUE) == 3);
+        assertEquals(3, testBoard.getDiseaseCount(ATLANTA, BLUE));
         testBoard.infect(NEW_YORK, 2);
-        assertTrue(testBoard.getDiseaseCount(NEW_YORK, BLUE) == 2);
+        assertEquals(2, testBoard.getDiseaseCount(NEW_YORK, BLUE));
         testBoard.infect(CHICAGO, 3);
-        assertTrue(testBoard.getDiseaseCount(CHICAGO, BLUE) == 3);
+        assertEquals(3, testBoard.getDiseaseCount(CHICAGO, BLUE));
 
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, YELLOW) == 0);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, RED) == 0);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, BLACK) == 0);
+        assertEquals(0, testBoard.getDiseaseCount(ATLANTA, YELLOW));
+        assertEquals(0, testBoard.getDiseaseCount(ATLANTA, RED));
+        assertEquals(0, testBoard.getDiseaseCount(ATLANTA, BLACK));
 
-        assertTrue(testBoard.getDiseaseCount(NEW_YORK, YELLOW) == 0);
-        assertTrue(testBoard.getDiseaseCount(NEW_YORK, RED) == 0);
-        assertTrue(testBoard.getDiseaseCount(NEW_YORK, BLACK) == 0);
+        assertEquals(0, testBoard.getDiseaseCount(NEW_YORK, YELLOW));
+        assertEquals(0, testBoard.getDiseaseCount(NEW_YORK, RED));
+        assertEquals(0, testBoard.getDiseaseCount(NEW_YORK, BLACK));
     }
 
     public void testSingleOutbreak() throws Exception {
 
         testBoard.infect(MADRID, 3);
-        assertTrue(testBoard.getDiseaseCount(NEW_YORK, BLUE) == 0);
-        assertTrue(testBoard.getDiseaseCount(LONDON, BLUE) == 0);
-        assertTrue(testBoard.getDiseaseCount(PARIS, BLUE) == 0);
-        assertTrue(testBoard.getDiseaseCount(ALGIERS, BLUE) == 0);
-        assertTrue(testBoard.getDiseaseCount(SAO_PAULO, BLUE) == 0);
+        assertEquals(0, testBoard.getDiseaseCount(NEW_YORK, BLUE));
+        assertEquals(0, testBoard.getDiseaseCount(LONDON, BLUE));
+        assertEquals(0, testBoard.getDiseaseCount(PARIS, BLUE));
+        assertEquals(0, testBoard.getDiseaseCount(ALGIERS, BLUE));
+        assertEquals(0, testBoard.getDiseaseCount(SAO_PAULO, BLUE));
 
         testBoard.infect(MADRID, 1);
-        assertTrue(testBoard.getDiseaseCount(MADRID, BLUE) == 3);
-        assertTrue(testBoard.getDiseaseCount(NEW_YORK, BLUE) == 1);
-        assertTrue(testBoard.getDiseaseCount(LONDON, BLUE) == 1);
-        assertTrue(testBoard.getDiseaseCount(PARIS, BLUE) == 1);
-        assertTrue(testBoard.getDiseaseCount(ALGIERS, BLUE) == 1);
-        assertTrue(testBoard.getDiseaseCount(SAO_PAULO, BLUE) == 1);
-        assertTrue(testBoard.getDiseaseCount(ALGIERS, BLACK) == 0);
-        assertTrue(testBoard.getDiseaseCount(SAO_PAULO, YELLOW) == 0);
+        assertEquals(3, testBoard.getDiseaseCount(MADRID, BLUE));
+        assertEquals(1, testBoard.getDiseaseCount(NEW_YORK, BLUE));
+        assertEquals(1, testBoard.getDiseaseCount(LONDON, BLUE));
+        assertEquals(1, testBoard.getDiseaseCount(PARIS, BLUE));
+        assertEquals(1, testBoard.getDiseaseCount(ALGIERS, BLUE));
+        assertEquals(1, testBoard.getDiseaseCount(SAO_PAULO, BLUE));
+        assertEquals(0, testBoard.getDiseaseCount(ALGIERS, BLACK));
+        assertEquals(0, testBoard.getDiseaseCount(SAO_PAULO, YELLOW));
 
         testBoard.infect(MIAMI, 2);
-        assertTrue(testBoard.getDiseaseCount(BOGOTA, YELLOW) == 0);
-        assertTrue(testBoard.getDiseaseCount(MEXICO_CITY, YELLOW) == 0);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, YELLOW) == 0);
-        assertTrue(testBoard.getDiseaseCount(WASHINGTON, YELLOW) == 0);
+        assertEquals(0, testBoard.getDiseaseCount(BOGOTA, YELLOW));
+        assertEquals(0, testBoard.getDiseaseCount(MEXICO_CITY, YELLOW));
+        assertEquals(0, testBoard.getDiseaseCount(ATLANTA, YELLOW));
+        assertEquals(0, testBoard.getDiseaseCount(WASHINGTON, YELLOW));
 
         testBoard.infect(MIAMI, 3);
-        assertTrue(testBoard.getDiseaseCount(MIAMI, YELLOW) == 3);
-        assertTrue(testBoard.getDiseaseCount(BOGOTA, YELLOW) == 1);
-        assertTrue(testBoard.getDiseaseCount(MEXICO_CITY, YELLOW) == 1);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, YELLOW) == 1);
-        assertTrue(testBoard.getDiseaseCount(WASHINGTON, YELLOW) == 1);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, BLUE) == 0);
-        assertTrue(testBoard.getDiseaseCount(WASHINGTON, BLUE) == 0);
+        assertEquals(3, testBoard.getDiseaseCount(MIAMI, YELLOW));
+        assertEquals(1, testBoard.getDiseaseCount(BOGOTA, YELLOW));
+        assertEquals(1, testBoard.getDiseaseCount(MEXICO_CITY, YELLOW));
+        assertEquals(1, testBoard.getDiseaseCount(ATLANTA, YELLOW));
+        assertEquals(1, testBoard.getDiseaseCount(WASHINGTON, YELLOW));
+        assertEquals(0, testBoard.getDiseaseCount(ATLANTA, BLUE));
+        assertEquals(0, testBoard.getDiseaseCount(WASHINGTON, BLUE));
 
         testBoard.infect(MIAMI, 1);
-        assertTrue(testBoard.getDiseaseCount(MIAMI, YELLOW) == 3);
-        assertTrue(testBoard.getDiseaseCount(BOGOTA, YELLOW) == 2);
-        assertTrue(testBoard.getDiseaseCount(MEXICO_CITY, YELLOW) == 2);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, YELLOW) == 2);
-        assertTrue(testBoard.getDiseaseCount(WASHINGTON, YELLOW) == 2);
-        assertTrue(testBoard.getDiseaseCount(ATLANTA, BLUE) == 0);
-        assertTrue(testBoard.getDiseaseCount(WASHINGTON, BLUE) == 0);
+        assertEquals(3, testBoard.getDiseaseCount(MIAMI, YELLOW));
+        assertEquals(2, testBoard.getDiseaseCount(BOGOTA, YELLOW));
+        assertEquals(2, testBoard.getDiseaseCount(MEXICO_CITY, YELLOW));
+        assertEquals(2, testBoard.getDiseaseCount(ATLANTA, YELLOW));
+        assertEquals(2, testBoard.getDiseaseCount(WASHINGTON, YELLOW));
+        assertEquals(0, testBoard.getDiseaseCount(ATLANTA, BLUE));
+        assertEquals(0, testBoard.getDiseaseCount(WASHINGTON, BLUE));
 
     }
 
@@ -122,19 +125,19 @@ public class BoardTest {
 
         testBoard.infect(JOHANNESBURG, 1);
 
-        assertTrue(testBoard.getDiseaseCount(JOHANNESBURG, YELLOW) == 3);
-        assertTrue(testBoard.getDiseaseCount(KINSHASA, YELLOW) == 3);
-        assertTrue(testBoard.getDiseaseCount(LAGOS, YELLOW) == 1);
-        assertTrue(testBoard.getDiseaseCount(KHARTOUM, YELLOW) == 2);
+        assertEquals(3, testBoard.getDiseaseCount(JOHANNESBURG, YELLOW));
+        assertEquals(3, testBoard.getDiseaseCount(KINSHASA, YELLOW));
+        assertEquals(1, testBoard.getDiseaseCount(LAGOS, YELLOW));
+        assertEquals(2, testBoard.getDiseaseCount(KHARTOUM, YELLOW));
 
         testBoard.infect(KHARTOUM, 2);
 
-        assertTrue(testBoard.getDiseaseCount(JOHANNESBURG, YELLOW) == 3);
-        assertTrue(testBoard.getDiseaseCount(KINSHASA, YELLOW) == 3);
-        assertTrue(testBoard.getDiseaseCount(LAGOS, YELLOW) == 3);
-        assertTrue(testBoard.getDiseaseCount(KHARTOUM, YELLOW) == 3);
-        assertTrue(testBoard.getDiseaseCount(SAO_PAULO, YELLOW) == 0);
-        assertTrue(testBoard.getDiseaseCount(CAIRO, YELLOW) == 1);
+        assertEquals(3, testBoard.getDiseaseCount(JOHANNESBURG, YELLOW));
+        assertEquals(3, testBoard.getDiseaseCount(KINSHASA, YELLOW));
+        assertEquals(3, testBoard.getDiseaseCount(LAGOS, YELLOW));
+        assertEquals(3, testBoard.getDiseaseCount(KHARTOUM, YELLOW));
+        assertEquals(0, testBoard.getDiseaseCount(SAO_PAULO, YELLOW));
+        assertEquals(1, testBoard.getDiseaseCount(CAIRO, YELLOW));
 
     }
 
@@ -179,18 +182,18 @@ public class BoardTest {
         testBoard.infect(KARACHI, 1);   // 2 outbreaks
         testBoard.infect(KARACHI, 1);   // 4 outbreaks
 
-        assertTrue(testBoard.getDiseaseCount(BAGHDAD, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(KARACHI, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(TEHRAN, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(RIYADH, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(DELHI, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(MUMBAI, BLACK) == 2);
-        assertTrue(testBoard.getDiseaseCount(MOSCOW, BLACK) == 1);
-        assertTrue(testBoard.getDiseaseCount(CAIRO, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(ISTANBUL, BLACK) == 2);
+        assertEquals(3, testBoard.getDiseaseCount(BAGHDAD, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(KARACHI, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(TEHRAN, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(RIYADH, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(DELHI, BLACK));
+        assertEquals(2, testBoard.getDiseaseCount(MUMBAI, BLACK));
+        assertEquals(1, testBoard.getDiseaseCount(MOSCOW, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(CAIRO, BLACK));
+        assertEquals(2, testBoard.getDiseaseCount(ISTANBUL, BLACK));
 
         testBoard.infect(KOLKATA, 1);
-        assertTrue(testBoard.getDiseaseCount(KOLKATA, BLACK) == 1);     // 24 black out at this point
+        assertEquals(1, testBoard.getDiseaseCount(KOLKATA, BLACK));     // 24 black out at this point
 
         try {
             testBoard.infect(ALGIERS, 1);
@@ -205,15 +208,15 @@ public class BoardTest {
         testBoard.infect(KARACHI, 1);   // 2 outbreaks
         testBoard.infect(KARACHI, 1);   // 4 outbreaks
 
-        assertTrue(testBoard.getDiseaseCount(BAGHDAD, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(KARACHI, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(TEHRAN, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(RIYADH, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(DELHI, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(MUMBAI, BLACK) == 2);
-        assertTrue(testBoard.getDiseaseCount(MOSCOW, BLACK) == 1);
-        assertTrue(testBoard.getDiseaseCount(CAIRO, BLACK) == 3);
-        assertTrue(testBoard.getDiseaseCount(ISTANBUL, BLACK) == 2);    // 23 out at this point
+        assertEquals(3, testBoard.getDiseaseCount(BAGHDAD, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(KARACHI, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(TEHRAN, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(RIYADH, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(DELHI, BLACK));
+        assertEquals(2, testBoard.getDiseaseCount(MUMBAI, BLACK));
+        assertEquals(1, testBoard.getDiseaseCount(MOSCOW, BLACK));
+        assertEquals(3, testBoard.getDiseaseCount(CAIRO, BLACK));
+        assertEquals(2, testBoard.getDiseaseCount(ISTANBUL, BLACK));    // 23 out at this point
 
         try {
             testBoard.infect(CHENNAI, 3);   // will go to 26, which should lose
@@ -222,9 +225,52 @@ public class BoardTest {
 
     }
 
-    private void addSomeInfection() {
+    public void testInitialStation() throws Exception{
 
+        assertTrue(testBoard.hasStation(ATLANTA));
+        assertFalse(testBoard.hasStation(WASHINGTON));
+        assertEquals(1, testBoard.stationsBuilt());
 
+    }
+
+    public void testAddStation() throws Exception{
+
+        int currentAvail = testBoard.stationsAvailable();
+
+        assertEquals(-1, testBoard.addStation(ATLANTA));
+        assertEquals(1, testBoard.stationsBuilt());
+        assertEquals(currentAvail, testBoard.stationsAvailable());
+
+        assertEquals( --currentAvail, testBoard.addStation(WASHINGTON));
+        assertTrue(testBoard.hasStation(WASHINGTON));
+        assertEquals(2, testBoard.stationsBuilt());
+        assertEquals(currentAvail, testBoard.stationsAvailable());
+
+        assertEquals(--currentAvail, testBoard.addStation(KINSHASA));
+        assertEquals(--currentAvail, testBoard.addStation(MOSCOW));
+        assertEquals(--currentAvail, testBoard.addStation(HONG_KONG));
+        assertEquals(--currentAvail, testBoard.addStation(MADRID));
+
+        assertEquals(-1, testBoard.addStation(WASHINGTON));
+
+    }
+
+    public void testRemoveStation() throws Exception {
+
+        int currentAvail = testBoard.stationsAvailable();
+
+        testBoard.addStation(WASHINGTON);
+        testBoard.addStation(KINSHASA);
+        testBoard.addStation(MOSCOW);
+        testBoard.addStation(HONG_KONG);
+        currentAvail -= 4;
+
+        assertEquals(5, testBoard.stationsBuilt());
+        assertEquals(currentAvail, testBoard.stationsAvailable());
+
+        assertEquals(++currentAvail, testBoard.removeStation(WASHINGTON));
+        assertEquals(-1, testBoard.removeStation(WASHINGTON));
+        assertEquals(4, testBoard.stationsBuilt());
 
     }
 
