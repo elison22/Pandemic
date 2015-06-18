@@ -1,12 +1,12 @@
 package com.practice.brandt.pandemic;
 
-import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,8 +14,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    // Commented out these two methods to emphasize that an action bar is not yet being used.
-    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -36,16 +34,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    */
-
-    /*
-     * This method is executed when the "Play" button is clicked.
-     * @TODO As of now it will simply display the main board image.
-     *
-     */
-    public void playButtonOnClick(View v) {
-        Intent intent = new Intent(this, GameBoardActivity.class);
-        startActivity(intent);
     }
 }

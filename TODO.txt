@@ -1,4 +1,0 @@
-Chad TODO:
-    Make the game board zoomable, set a default zoom level. Also add functionality for landscape/portrait views.
-    Figure out how to hide the headers that appear over each activity.
-    Figure out how to disable the 'back' button on the GameBoardActivity.
