@@ -7,7 +7,7 @@ public enum EventCardType {
 
     AIRLIFT,
     QUIETNIGHT,
-    RESILIENTPOP,
+    RESILPOP,
     GOVGRANT,
     FORECAST
 

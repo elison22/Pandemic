@@ -3,10 +3,9 @@ package enums;
 /**
  * Created by brandt on 5/13/15.
  */
-public enum GameCardType {
+public enum PlayerCardType {
 
-    INFECTION,
-    PLAYER,
+    CITY,
     EVENT,
     EPIDEMIC
 
