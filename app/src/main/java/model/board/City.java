@@ -11,6 +11,9 @@ import enums.DiseaseType;
  */
 public class City {
 
+    private String name;
+    private int population;
+
     private int protectionLevel = 0;
     private boolean outbreakFlag = false;
     private DiseaseType type;
@@ -20,6 +23,19 @@ public class City {
 
     public City(DiseaseType type) {
         this.type = type;
+
+        initInfectionLevel();
+    }
+
+    public City(String name, int population, DiseaseType type) {
+        this.name = name;
+        this.population = population;
+        this.type = type;
+
+        initInfectionLevel();
+    }
+
+    private void initInfectionLevel() {
         infectionLevel.put(DiseaseType.BLUE, 0);
         infectionLevel.put(DiseaseType.YELLOW, 0);
         infectionLevel.put(DiseaseType.RED, 0);
@@ -64,6 +80,22 @@ public class City {
 
     public DiseaseType getDiseaseType() {
         return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
     }
 
 
