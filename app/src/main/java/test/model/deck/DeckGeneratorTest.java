@@ -10,6 +10,7 @@ import model.card.deck.DeckGenerator;
 import model.card.deck.EmtpyCityListException;
 import model.card.type.CityCard;
 import model.card.type.IPlayerCard;
+import model.card.type.InfectionCard;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -38,6 +39,8 @@ public class DeckGeneratorTest {
             assertNotNull(deckGenerator.getCities());
             assertTrue(deckGenerator.getCities().size() == 3);
 
+
+            // Verify that player cards were properly generated
             List<IPlayerCard> cards = deckGenerator.getPlayerDeck();
             assertNotNull(cards);
             assertFalse(cards.isEmpty());
@@ -55,8 +58,26 @@ public class DeckGeneratorTest {
             assertTrue(card.getCity().equals(CityName.LONDON));
             assertTrue(card.getPopulation() == 9001000);
 
+
+            // Verify that infection cards were properly generated
+            List<InfectionCard> infectionCards = deckGenerator.getInfectionDeck();
+            assertNotNull(infectionCards);
+            assertFalse(infectionCards.isEmpty());
+            assertTrue(infectionCards.size() == 3);
+
+            InfectionCard infectionCard = (InfectionCard) infectionCards.get(0);
+            assertTrue(infectionCard.getCity().equals(CityName.ALGIERS));
+
+            infectionCard = (InfectionCard) infectionCards.get(1);
+            assertTrue(infectionCard.getCity().equals(CityName.ATLANTA));
+
+            infectionCard = (InfectionCard) infectionCards.get(2);
+            assertTrue(infectionCard.getCity().equals(CityName.LONDON));
+
         } catch (EmtpyCityListException e) {
             e.printStackTrace();
         }
+
+
     }
 }

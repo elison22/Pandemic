@@ -8,6 +8,7 @@ import enums.CityName;
 import model.board.City;
 import model.card.type.CityCard;
 import model.card.type.IPlayerCard;
+import model.card.type.InfectionCard;
 
 /**
  * Created by Chad on 6/27/2015.
@@ -21,13 +22,15 @@ public class DeckGenerator {
     private Map<CityName, City> cities;
 
     private ArrayList<IPlayerCard> playerDeck;
+    private ArrayList<InfectionCard> infectionDeck;
 
     public DeckGenerator(Map<CityName, City> cities) throws EmtpyCityListException {
         if (cities.size() < 1)
             throw new EmtpyCityListException();
 
         this.cities = cities;
-        playerDeck = new ArrayList<>();
+        this.playerDeck = new ArrayList<>();
+        this.infectionDeck = new ArrayList<>();
 
         generateDecks();
     }
@@ -37,17 +40,20 @@ public class DeckGenerator {
      */
     private void generateDecks() {
 
-        // Generate player cards
+        // Generate player and infection cards
         for (Map.Entry<CityName, City> entry : cities.entrySet()) {
             CityName key = entry.getKey();
             City value = entry.getValue();
             playerDeck.add(new CityCard(key, value.getPopulation()));
+            infectionDeck.add(new InfectionCard(key));
         }
     }
 
     public List<IPlayerCard> getPlayerDeck() {
         return playerDeck;
     }
+
+    public List<InfectionCard> getInfectionDeck() { return infectionDeck; }
 
     /*
      * FOR TESTING
